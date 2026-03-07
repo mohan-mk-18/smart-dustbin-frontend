@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+/* ===========================
+   Fade In Animation
+=========================== */
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Animation utility class */
+.animate-fadeIn {
+  animation: fadeIn 0.25s ease-out;
+}
