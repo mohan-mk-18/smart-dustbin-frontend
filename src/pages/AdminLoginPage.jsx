@@ -25,7 +25,7 @@ export default function AdminLoginPage({ onLogin }) {
     }
 
     // Temporary authentication
-    if (credentials.id === "admin" && credentials.password === "1234") {
+    if (credentials.id === "smartadmin" && credentials.password === "hygiene0123") {
       onLogin();
       navigate("/admin/home");
     } else {
