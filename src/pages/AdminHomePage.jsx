@@ -21,6 +21,8 @@ export default function AdminHomePage({ pendingCount }) {
           id: bin._id,
           binId: bin.binId,
           updatedAt: bin.updatedAt,
+          isOnline: bin.isOnline,
+          
           area: bin.binId || "Unknown Area",
 
           fillStatus: bin.fillStatus,
