@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { io } from "socket.io-client"; // ✅ ADDED
+import { io } from "socket.io-client";
 import AdminLayout from "../components/Layout/AdminLayout";
 
 export default function AdminHomePage({ pendingCount }) {
@@ -68,7 +68,7 @@ export default function AdminHomePage({ pendingCount }) {
   };
 
   /* ==============================
-     REAL-TIME SOCKET (UPDATED)
+     REAL-TIME + POLLING (UPDATED)
   ============================== */
 
   useEffect(() => {
@@ -77,20 +77,26 @@ export default function AdminHomePage({ pendingCount }) {
     fetchBins();
     fetchComplaints();
 
-    // 🔥 Connect socket
+    // 🔥 SOCKET CONNECTION
     const socket = io("https://smart-dustbin-backend.onrender.com");
 
     socket.on("connect", () => {
-      console.log("✅ Connected to socket:", socket.id);
+      console.log("✅ Connected:", socket.id);
     });
 
-    socket.on("binUpdated", (data) => {
-      console.log("⚡ Real-time update:", data);
-      fetchBins(); // update instantly
+    socket.on("binUpdated", () => {
+      console.log("⚡ Instant update");
+      fetchBins();
     });
+
+    // 🔥 ADD BACK LIGHT POLLING (IMPORTANT)
+    const interval = setInterval(() => {
+      fetchBins(); // for offline detection
+    }, 5000);
 
     return () => {
       socket.disconnect();
+      clearInterval(interval);
     };
 
   }, []);
