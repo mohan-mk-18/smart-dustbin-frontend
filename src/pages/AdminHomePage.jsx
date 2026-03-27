@@ -23,7 +23,7 @@ export default function AdminHomePage({ pendingCount }) {
           binId: bin.binId,
           updatedAt: bin.updatedAt,
           isOnline: bin.isOnline,
-          
+
           area: bin.binId || "Unknown Area",
 
           fillStatus: bin.fillStatus,
@@ -68,16 +68,14 @@ export default function AdminHomePage({ pendingCount }) {
   };
 
   /* ==============================
-     REAL-TIME + POLLING (UPDATED)
+     REAL-TIME + POLLING
   ============================== */
 
   useEffect(() => {
 
-    // Initial fetch
     fetchBins();
     fetchComplaints();
 
-    // 🔥 SOCKET CONNECTION
     const socket = io("https://smart-dustbin-backend.onrender.com");
 
     socket.on("connect", () => {
@@ -89,9 +87,8 @@ export default function AdminHomePage({ pendingCount }) {
       fetchBins();
     });
 
-    // 🔥 ADD BACK LIGHT POLLING (IMPORTANT)
     const interval = setInterval(() => {
-      fetchBins(); // for offline detection
+      fetchBins();
     }, 5000);
 
     return () => {
@@ -144,7 +141,10 @@ export default function AdminHomePage({ pendingCount }) {
     await fetch(
       `https://smart-dustbin-backend.onrender.com/bins/${binId}/lock`,
       {
-        method: "PATCH"
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json"
+        }
       }
     );
 
@@ -176,7 +176,6 @@ export default function AdminHomePage({ pendingCount }) {
 
     const lastUpdate = new Date(bins[0].updatedAt).getTime();
     const now = new Date().getTime();
-
     const diffSeconds = (now - lastUpdate) / 1000;
 
     if (diffSeconds < 10) {
@@ -236,21 +235,21 @@ export default function AdminHomePage({ pendingCount }) {
         <div className="flex flex-wrap gap-3">
 
           <button
-            onClick={() => demoUpdate("BIN001","FULL","POOR")}
+            onClick={() => demoUpdate("BIN001", "FULL", "POOR")}
             className="bg-red-500 text-white px-4 py-2 rounded-lg"
           >
             Make BIN001 FULL
           </button>
 
           <button
-            onClick={() => demoUpdate("BIN001","ACTIVE","GOOD")}
+            onClick={() => demoUpdate("BIN001", "ACTIVE", "GOOD")}
             className="bg-green-600 text-white px-4 py-2 rounded-lg"
           >
             Make BIN001 EMPTY
           </button>
 
           <button
-            onClick={() => demoUpdate("BIN001","ACTIVE","POOR")}
+            onClick={() => demoUpdate("BIN001", "ACTIVE", "POOR")}
             className="bg-yellow-500 text-white px-4 py-2 rounded-lg"
           >
             Simulate Gas Leak
