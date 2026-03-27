@@ -123,20 +123,19 @@ export default function AdminHomePage({ pendingCount }) {
   };
 
   /* ==============================
-     LOCK / UNLOCK BIN
+     UNLOCK BIN (ADMIN CONTROL)
+     Only works when bin is FULL.
+     Lock button removed entirely —
+     sensor is the authority when empty.
   ============================== */
 
-  const toggleLock = async (binId, locked) => {
+  const unlockBin = async (binId) => {
 
-    if (locked) {
+    const confirmUnlock = window.confirm(
+      "Are you sure you want to unlock this bin?"
+    );
 
-      const confirmUnlock = window.confirm(
-        "Are you sure you want to unlock this bin?"
-      );
-
-      if (!confirmUnlock) return;
-
-    }
+    if (!confirmUnlock) return;
 
     await fetch(
       `https://smart-dustbin-backend.onrender.com/bins/${binId}/lock`,
@@ -331,15 +330,25 @@ export default function AdminHomePage({ pendingCount }) {
 
               </div>
 
+              {/* ==============================
+                  UNLOCK BUTTON
+                  - Full bin: bright green, clickable
+                  - Not full: dimmed, not clickable,
+                    shows tooltip on hover
+              ============================== */}
+
               <button
-                onClick={() => toggleLock(bin.binId, bin.locked)}
-                className={`mt-4 w-full py-2 rounded-xl transition ${
-                  bin.locked
-                    ? "bg-green-600 hover:bg-green-700 text-white"
-                    : "bg-red-500 hover:bg-red-600 text-white"
-                }`}
+                onClick={() => isFull && unlockBin(bin.binId)}
+                disabled={!isFull}
+                title={!isFull ? "Bin is not full — auto managed by sensor" : "Click to unlock for worker access"}
+                className={`mt-4 w-full py-2 rounded-xl transition font-medium
+                  ${isFull
+                    ? "bg-green-600 hover:bg-green-700 text-white cursor-pointer shadow-md"
+                    : "bg-green-200 text-green-400 cursor-not-allowed opacity-50"
+                  }
+                `}
               >
-                {bin.locked ? "Unlock Bin" : "Lock Bin"}
+                Unlock Bin
               </button>
 
             </div>
