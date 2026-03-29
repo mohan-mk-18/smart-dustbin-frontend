@@ -19,10 +19,10 @@ export default function AdminHomePage({ pendingCount }) {
 
         const formatted = data.map(bin => ({
 
-          id: bin._id,
-          binId: bin.binId,
+          id:        bin._id,
+          binId:     bin.binId,
           updatedAt: bin.updatedAt,
-          isOnline: bin.isOnline,
+          isOnline:  bin.isOnline,
 
           area: bin.binId || "Unknown Area",
 
@@ -108,13 +108,8 @@ export default function AdminHomePage({ pendingCount }) {
       `https://smart-dustbin-backend.onrender.com/bins/${binId}/demo`,
       {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          fillStatus,
-          gasStatus
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ fillStatus, gasStatus })
       }
     );
 
@@ -124,17 +119,13 @@ export default function AdminHomePage({ pendingCount }) {
 
   /* ==============================
      TOGGLE LOCK / UNLOCK BIN
-     Admin can both open and close
-     the bin from UI. Works as a
-     toggle — same button, same route.
-     Only active when bin is FULL.
-     Dimmed and disabled when not full
-     since sensor manages it otherwise.
+     No fill status restriction —
+     ultrasonic no longer controls
+     servo so there is no conflict.
+     Admin can lock/unlock anytime.
   ============================== */
 
-  const toggleLock = async (binId, locked, fillStatus) => {
-
-    if (fillStatus !== "FULL") return;
+  const toggleLock = async (binId, locked) => {
 
     if (locked) {
       const confirmUnlock = window.confirm(
@@ -152,9 +143,7 @@ export default function AdminHomePage({ pendingCount }) {
       `https://smart-dustbin-backend.onrender.com/bins/${binId}/lock`,
       {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json"
-        }
+        headers: { "Content-Type": "application/json" }
       }
     );
 
@@ -184,8 +173,8 @@ export default function AdminHomePage({ pendingCount }) {
 
   if (bins.length > 0 && bins[0].updatedAt) {
 
-    const lastUpdate = new Date(bins[0].updatedAt).getTime();
-    const now = new Date().getTime();
+    const lastUpdate  = new Date(bins[0].updatedAt).getTime();
+    const now         = new Date().getTime();
     const diffSeconds = (now - lastUpdate) / 1000;
 
     if (diffSeconds < 10) {
@@ -275,16 +264,18 @@ export default function AdminHomePage({ pendingCount }) {
 
         {bins.map((bin) => {
 
-          const isFull = bin.fillStatus === "FULL";
+          const isFull    = bin.fillStatus === "FULL";
           const isHarmful = bin.gas === "Harmful";
-          const isLow = bin.level < 5;
+          const isLow     = bin.level < 5;
 
           return (
 
             <div
               key={bin.id}
               className={`bg-white p-6 rounded-2xl shadow-xl border transition
-                ${isFull ? "border-red-400 animate-pulse" : "border-green-200"}
+                ${isFull
+                  ? "border-red-400 animate-pulse"
+                  : "border-green-200"}
               `}
             >
 
@@ -343,37 +334,23 @@ export default function AdminHomePage({ pendingCount }) {
 
               {/* ==============================
                   LOCK / UNLOCK BUTTON
-                  Only active when bin is FULL.
-                  Dimmed and disabled when not
-                  full — sensor manages it then.
-                  When full: toggles lock state.
+                  Always active — no fill
+                  restriction since ultrasonic
+                  no longer controls servo.
+                  Green = unlock action
+                  Red   = lock action
               ============================== */}
 
               <button
-                onClick={() => toggleLock(bin.binId, bin.locked, bin.fillStatus)}
-                disabled={!isFull}
-                title={
-                  !isFull
-                    ? "Bin is not full — auto managed by sensor"
-                    : bin.locked
-                    ? "Click to unlock for worker access"
-                    : "Click to lock the bin"
-                }
+                onClick={() => toggleLock(bin.binId, bin.locked)}
                 className={`mt-4 w-full py-2 rounded-xl transition font-medium
-                  ${isFull
-                    ? bin.locked
-                      ? "bg-green-600 hover:bg-green-700 text-white cursor-pointer shadow-md"
-                      : "bg-red-500 hover:bg-red-600 text-white cursor-pointer shadow-md"
-                    : "bg-gray-200 text-gray-400 cursor-not-allowed opacity-50"
+                  ${bin.locked
+                    ? "bg-green-600 hover:bg-green-700 text-white cursor-pointer shadow-md"
+                    : "bg-red-500 hover:bg-red-600 text-white cursor-pointer shadow-md"
                   }
                 `}
               >
-                {isFull
-                  ? bin.locked
-                    ? "Unlock Bin"
-                    : "Lock Bin"
-                  : "Auto Managed"
-                }
+                {bin.locked ? "Unlock Bin" : "Lock Bin"}
               </button>
 
             </div>
