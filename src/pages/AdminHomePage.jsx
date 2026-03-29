@@ -123,19 +123,30 @@ export default function AdminHomePage({ pendingCount }) {
   };
 
   /* ==============================
-     UNLOCK BIN (ADMIN CONTROL)
-     Only works when bin is FULL.
-     Lock button removed entirely —
-     sensor is the authority when empty.
+     TOGGLE LOCK / UNLOCK BIN
+     Admin can both open and close
+     the bin from UI. Works as a
+     toggle — same button, same route.
+     Only active when bin is FULL.
+     Dimmed and disabled when not full
+     since sensor manages it otherwise.
   ============================== */
 
-  const unlockBin = async (binId) => {
+  const toggleLock = async (binId, locked, fillStatus) => {
 
-    const confirmUnlock = window.confirm(
-      "Are you sure you want to unlock this bin?"
-    );
+    if (fillStatus !== "FULL") return;
 
-    if (!confirmUnlock) return;
+    if (locked) {
+      const confirmUnlock = window.confirm(
+        "Are you sure you want to unlock this bin?"
+      );
+      if (!confirmUnlock) return;
+    } else {
+      const confirmLock = window.confirm(
+        "Are you sure you want to lock this bin?"
+      );
+      if (!confirmLock) return;
+    }
 
     await fetch(
       `https://smart-dustbin-backend.onrender.com/bins/${binId}/lock`,
@@ -331,24 +342,38 @@ export default function AdminHomePage({ pendingCount }) {
               </div>
 
               {/* ==============================
-                  UNLOCK BUTTON
-                  - Full bin: bright green, clickable
-                  - Not full: dimmed, not clickable,
-                    shows tooltip on hover
+                  LOCK / UNLOCK BUTTON
+                  Only active when bin is FULL.
+                  Dimmed and disabled when not
+                  full — sensor manages it then.
+                  When full: toggles lock state.
               ============================== */}
 
               <button
-                onClick={() => isFull && unlockBin(bin.binId)}
+                onClick={() => toggleLock(bin.binId, bin.locked, bin.fillStatus)}
                 disabled={!isFull}
-                title={!isFull ? "Bin is not full — auto managed by sensor" : "Click to unlock for worker access"}
+                title={
+                  !isFull
+                    ? "Bin is not full — auto managed by sensor"
+                    : bin.locked
+                    ? "Click to unlock for worker access"
+                    : "Click to lock the bin"
+                }
                 className={`mt-4 w-full py-2 rounded-xl transition font-medium
                   ${isFull
-                    ? "bg-green-600 hover:bg-green-700 text-white cursor-pointer shadow-md"
-                    : "bg-green-200 text-green-400 cursor-not-allowed opacity-50"
+                    ? bin.locked
+                      ? "bg-green-600 hover:bg-green-700 text-white cursor-pointer shadow-md"
+                      : "bg-red-500 hover:bg-red-600 text-white cursor-pointer shadow-md"
+                    : "bg-gray-200 text-gray-400 cursor-not-allowed opacity-50"
                   }
                 `}
               >
-                Unlock Bin
+                {isFull
+                  ? bin.locked
+                    ? "Unlock Bin"
+                    : "Lock Bin"
+                  : "Auto Managed"
+                }
               </button>
 
             </div>
