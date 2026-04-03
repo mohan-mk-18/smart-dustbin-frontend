@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+
+  <!-- Left signal waves -->
+  <path d="M95 125 Q70 145 95 165" fill="none" stroke="#2ECC8A" stroke-width="6" stroke-linecap="round"/>
+  <path d="M80 112 Q45 145 80 178" fill="none" stroke="#2ECC8A" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Right signal waves -->
+  <path d="M205 125 Q230 145 205 165" fill="none" stroke="#2ECC8A" stroke-width="6" stroke-linecap="round"/>
+  <path d="M220 112 Q255 145 220 178" fill="none" stroke="#2ECC8A" stroke-width="6" stroke-linecap="round"/>
+
+  <!-- Dustbin body (trapezoid, open top) -->
+  <path d="M108 148 L100 230 Q100 238 108 238 L192 238 Q200 238 200 230 L192 148 Z"
+    fill="white" stroke="#3D5166" stroke-width="5" stroke-linejoin="round"/>
+
+  <!-- Dustbin open lid / green top flap (V-shape / open bin top) -->
+  <path d="M103 148 L150 178 L197 148 Z" fill="#2ECC8A"/>
+
+  <!-- Lid top edge line -->
+  <line x1="103" y1="148" x2="197" y2="148" stroke="#3D5166" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Circuit board / chip coming out of top -->
+  <!-- Main chip base -->
+  <rect x="128" y="88" width="44" height="32" rx="4" fill="#B0B8C1" stroke="#8A939E" stroke-width="2"/>
+
+  <!-- Chip pins left -->
+  <rect x="118" y="93" width="10" height="5" rx="2" fill="#8A939E"/>
+  <rect x="118" y="102" width="10" height="5" rx="2" fill="#8A939E"/>
+  <rect x="118" y="111" width="10" height="5" rx="2" fill="#8A939E"/>
+
+  <!-- Chip pins right -->
+  <rect x="172" y="93" width="10" height="5" rx="2" fill="#8A939E"/>
+  <rect x="172" y="102" width="10" height="5" rx="2" fill="#8A939E"/>
+  <rect x="172" y="111" width="10" height="5" rx="2" fill="#8A939E"/>
+
+  <!-- Circuit lines radiating upward from chip -->
+  <line x1="150" y1="88" x2="150" y2="72" stroke="#B0B8C1" stroke-width="2"/>
+  <line x1="150" y1="72" x2="138" y2="60" stroke="#B0B8C1" stroke-width="2"/>
+  <circle cx="138" cy="58" r="3" fill="#B0B8C1"/>
+
+  <line x1="150" y1="72" x2="162" y2="60" stroke="#B0B8C1" stroke-width="2"/>
+  <circle cx="162" cy="58" r="3" fill="#B0B8C1"/>
+
+  <line x1="150" y1="88" x2="135" y2="75" stroke="#B0B8C1" stroke-width="2"/>
+  <circle cx="133" cy="73" r="3" fill="#B0B8C1"/>
+
+  <line x1="150" y1="88" x2="165" y2="75" stroke="#B0B8C1" stroke-width="2"/>
+  <circle cx="167" cy="73" r="3" fill="#B0B8C1"/>
+
+  <line x1="150" y1="88" x2="125" y2="68" stroke="#B0B8C1" stroke-width="2"/>
+  <circle cx="123" cy="66" r="3" fill="#B0B8C1"/>
+
+  <line x1="150" y1="88" x2="175" y2="68" stroke="#B0B8C1" stroke-width="2"/>
+  <circle cx="177" cy="66" r="3" fill="#B0B8C1"/>
+
+  <line x1="138" y1="88" x2="128" y2="72" stroke="#B0B8C1" stroke-width="2"/>
+  <circle cx="126" cy="70" r="2.5" fill="#B0B8C1"/>
+
+  <line x1="162" y1="88" x2="172" y2="72" stroke="#B0B8C1" stroke-width="2"/>
+  <circle cx="174" cy="70" r="2.5" fill="#B0B8C1"/>
+
+  <!-- Lock icon on dustbin body -->
+  <!-- Lock shackle -->
+  <path d="M140 185 Q140 174 150 174 Q160 174 160 185" fill="none" stroke="#2ECC8A" stroke-width="5" stroke-linecap="round"/>
+  <!-- Lock body -->
+  <rect x="134" y="185" width="32" height="26" rx="5" fill="#2ECC8A"/>
+  <!-- Keyhole -->
+  <circle cx="150" cy="195" r="5" fill="white"/>
+  <rect x="147" y="197" width="6" height="8" rx="1" fill="white"/>
+
+</svg>
